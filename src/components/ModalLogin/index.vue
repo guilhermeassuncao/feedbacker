@@ -13,7 +13,6 @@
             <label class="block">
                 <span class="text-lg font-medium text-gray-800">E-mail</span>
                 <input
-                    id="email-field"
                     v-model="state.email.value"
                     type="email"
                     :class="{
@@ -23,7 +22,6 @@
                     placeholder="jane.dae@gmail.com"
                 />
                 <span
-                    id="email-error"
                     v-if="!!state.email.errorMessage"
                     class="block font-medium text-brand-danger mt-3"
                 >
@@ -34,7 +32,6 @@
             <label class="block mt-9">
                 <span class="text-lg font-medium text-gray-800">Senha</span>
                 <input
-                    id="password-field"
                     v-model="state.password.value"
                     type="password"
                     :class="{
@@ -51,7 +48,6 @@
             </label>
 
             <button
-                id="submit-button"
                 :disabled="state.isLoading"
                 type="submit"
                 :class="{
@@ -125,28 +121,30 @@ export default {
                 });
 
                 if (!errors) {
-                    window.location.setItem("token", data.token);
-                    state.isLoading = false;
+                    window.localStorage.setItem("token", data.token);
                     router.push({ name: "Feedbacks" });
+                    state.isLoading = false;
                     modal.close();
-
                     return;
                 }
 
                 if (errors.status === 404) {
-                    toast.error("Usuário não encontrado");
+                    toast.error("E-mail não encontrado");
                 }
+
                 if (errors.status === 401) {
-                    toast.error("Senha incorreta");
+                    toast.error("E-mail/senha inválidos");
                 }
+
                 if (errors.status === 400) {
-                    toast.error("E-mail incorreto");
+                    toast.error("Ocorreu um erro ao fazer o login");
                 }
 
                 state.isLoading = false;
             } catch (error) {
                 state.isLoading = false;
                 state.hasErrors = !!error;
+
                 toast.error("Ocorreu um erro ao fazer o login");
             }
         }
