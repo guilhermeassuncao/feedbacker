@@ -90,7 +90,7 @@ import { reactive } from "vue";
 import { useField } from "vee-validate";
 import { useToast } from "vue-toastification";
 import useModal from "../../hooks/useModal";
-import Icon from "../Icons";
+import Icon from "../Icon";
 import {
     validateEmptyAndLength3,
     validateEmptyAndEmail,

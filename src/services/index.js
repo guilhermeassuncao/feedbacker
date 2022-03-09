@@ -5,11 +5,23 @@ import AuthService from "./auth";
 import UsersService from "./users";
 
 const API_ENVS = {
+    development: "",
     local: "http://localhost:3000",
 };
 
 const httpClient = axios.create({
-    baseURL: API_ENVS.local,
+    baseURL: API_ENVS[process.env.NODE_ENV] || API_ENVS.local,
+});
+
+httpClient.interceptors.request.use((config) => {
+    setGlobalLoading(true);
+    const token = window.localStorage.getItem("token");
+
+    if (token) {
+        config.headers.common.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
 });
 
 httpClient.interceptors.response.use(
@@ -37,5 +49,5 @@ httpClient.interceptors.response.use(
 
 export default {
     auth: AuthService(httpClient),
-    users: UsersService(httpClient),
+    users: UsersService(httpClient)
 };
