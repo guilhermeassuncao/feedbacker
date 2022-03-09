@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col mt-5">
+    <div class="flex flex-col">
         <h1 class="text-2xl font-regular text-brand-darkgray">Filtros</h1>
 
         <ul class="flex flex-col mt-3 list-none">
